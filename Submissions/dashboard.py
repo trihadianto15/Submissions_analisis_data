@@ -26,17 +26,21 @@ st.header('URBAN CYCLE')
 
 st.subheader('Penyewaan Sepeda')
  
+#Untuk melihat jumlah keseluruhan penyewa sepeda
 col1, col2, col3 = st.columns(3)
  
 with col1:
+    #jumlah seluruh penyewa sepeda
     total_cnt = df_hour["cnt"].sum()
     st.metric("Total penyewa", value=total_cnt)
 
 with col2:
+    #jumlah penyewa yang casual
     total_casual = df_hour["casual"].sum()
     st.metric("Total Casual", value=total_casual)
 
 with col3:
+    #jumlah penyewa yang registered
     total_registered = df_hour["registered"].sum()
     st.metric("Total registered", value=total_registered)
 
@@ -47,7 +51,7 @@ st.subheader("Penyewaan sepeda menurut jam")
 col1, col2 = st.columns(2)
 
 with col1:
-
+    #melihat barplot dari penyewaan sepeda berdasarkan jam
     fig, ax = plt.subplots(figsize=(23, 10))
  
     sns.barplot(
@@ -65,6 +69,7 @@ with col1:
 
 
 with col2:
+    #dalam bentuk tabel
     st.write(byhr_df.sort_values(by=(["hr", "cnt"])))
 
 
@@ -72,10 +77,12 @@ st.subheader("Penyewaan sepeda menurut weathersit dan temp")
 
 col1, col2 = st.columns(2)
 
+#data untuk masing masing data weathersit
 set_1 = byweathersit_temp_df[byweathersit_temp_df["weathersit"]==1]
 set_2 = byweathersit_temp_df[byweathersit_temp_df["weathersit"]==2]
 
 with col1:
+    #melihat lineplot penyewaan sepeda berdasarkan weathersit dan temp
     fig, ax = plt.subplots(figsize=(20, 10))
 
     sns.lineplot(
@@ -96,6 +103,7 @@ with col1:
     st.pyplot(fig)
 
 with col2:
+    #melihat lineplot penyewaan sepeda berdasarkan weathersit dan temp
     fig, ax = plt.subplots(figsize=(20, 10))
 
     sns.lineplot(
@@ -117,10 +125,12 @@ with col2:
 
 col3, col4 = st.columns(2)
 
+#data untuk masing masing data weathersit
 set_3 = byweathersit_temp_df[byweathersit_temp_df["weathersit"]==3]
 set_4 = byweathersit_temp_df[byweathersit_temp_df["weathersit"]==4]
 
 with col3:
+    #melihat lineplot penyewaan sepeda berdasarkan weathersit dan temp
     fig, ax = plt.subplots(figsize=(20, 10))
 
     sns.lineplot(
@@ -141,6 +151,7 @@ with col3:
     st.pyplot(fig)
 
 with col4:
+    #melihat lineplot penyewaan sepeda berdasarkan weathersit dan temp
     fig, ax = plt.subplots(figsize=(20, 10))
 
     sns.lineplot(
