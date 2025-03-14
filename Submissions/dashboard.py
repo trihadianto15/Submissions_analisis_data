@@ -30,9 +30,6 @@ min_date = df_hour["dteday"].min()
 max_date = df_hour["dteday"].max()
  
 with st.sidebar:
-    # Menambahkan logo perusahaan
-    st.image("https://github.com/trihadianto15/latihan-kolaborasi/blob/main/infinity-bike-logo-free-vector-removebg-preview.png")
-    
     # Mengambil start_date & end_date dari date_input
     start_date, end_date = st.date_input(
         label='Rentang Waktu',min_value=min_date,
