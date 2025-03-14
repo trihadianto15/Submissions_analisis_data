@@ -1,0 +1,11 @@
+Name: pandas
+Version: 2.2.3
+
+Name: matplotlib
+Version: 3.10.1
+
+Name: seaborn
+Version: 0.13.2
+
+Name: streamlit
+Version: 1.43.0
