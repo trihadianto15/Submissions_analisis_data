@@ -17,7 +17,7 @@ def create_byweathersit_temp_df(df):
 
     return byweathersit_temp_df
 
-df_hour = pd.read_csv("dashboard/all_hour.csv")
+df_hour = pd.read_csv("all_hour.csv")
 
 datetime_columns = ["dteday"]
 df_hour.sort_values(by="dteday", inplace=True)
