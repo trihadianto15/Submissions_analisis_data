@@ -6,7 +6,7 @@ import streamlit as st
 def create_byhr_df(df):
     byhr_df = df.groupby(by="hr").agg({
         "cnt": "max"
-    }).reset_index()
+    })
     
     return byhr_df
 
@@ -17,32 +17,10 @@ def create_byweathersit_temp_df(df):
 
     return byweathersit_temp_df
 
-df_hour = pd.read_csv("https://raw.githubusercontent.com/trihadianto15/Submissions_analisis_data/refs/heads/main/Submissions/all_hour.csv")
+df_hour = pd.read_csv("dashboard/all_hour.csv")
 
-datetime_columns = ["dteday"]
-df_hour.sort_values(by="dteday", inplace=True)
- 
-for column in datetime_columns:
-    df_hour[column] = pd.to_datetime(df_hour[column])
-
-
-min_date = df_hour["dteday"].min()
-max_date = df_hour["dteday"].max()
- 
-with st.sidebar:
-    # Mengambil start_date & end_date dari date_input
-    start_date, end_date = st.date_input(
-        label='Rentang Waktu',min_value=min_date,
-        max_value=max_date,
-        value=[min_date, max_date]
-    )
-
-main_df = df_hour[(df_hour["dteday"] >= str(start_date)) & 
-                (df_hour["dteday"] <= str(end_date))]
-
-
-byhr_df = create_byhr_df(main_df)
-byweathersit_temp_df = create_byweathersit_temp_df(main_df)
+byhr_df = create_byhr_df(df_hour)
+byweathersit_temp_df = create_byweathersit_temp_df(df_hour)
 
 st.header('URBAN CYCLE')
 
@@ -51,15 +29,15 @@ st.subheader('Penyewaan Sepeda')
 col1, col2, col3 = st.columns(3)
  
 with col1:
-    total_cnt = main_df["cnt"].sum()
+    total_cnt = df_hour["cnt"].sum()
     st.metric("Total penyewa", value=total_cnt)
 
 with col2:
-    total_casual = main_df["casual"].sum()
+    total_casual = df_hour["casual"].sum()
     st.metric("Total Casual", value=total_casual)
 
 with col3:
-    total_registered = main_df["registered"].sum()
+    total_registered = df_hour["registered"].sum()
     st.metric("Total registered", value=total_registered)
 
 
@@ -87,7 +65,8 @@ with col1:
 
 
 with col2:
-    st.write(byhr_df[["hr", "cnt"]])
+    st.write(byhr_df.sort_values(by=(["hr", "cnt"])))
+
 
 st.subheader("Penyewaan sepeda menurut weathersit dan temp")
 
@@ -111,6 +90,7 @@ with col1:
     ax.set_title("Pengaruh weathersit 1 dan temp dalam penyewaan sepeda", loc="center", fontsize=50)
     ax.set_ylabel("cnt")
     ax.set_xlabel("temp")
+    ax.grid()
     ax.tick_params(axis="x", labelsize=35)
     ax.tick_params(axis="y", labelsize=35)
     st.pyplot(fig)
@@ -130,6 +110,7 @@ with col2:
     ax.set_title("Pengaruh weathersit 2 dan temp dalam penyewaan sepeda", loc="center", fontsize=50)
     ax.set_ylabel("cnt")
     ax.set_xlabel("temp")
+    ax.grid()
     ax.tick_params(axis="x", labelsize=35)
     ax.tick_params(axis="y", labelsize=35)
     st.pyplot(fig)
@@ -154,6 +135,7 @@ with col3:
     ax.set_title("Pengaruh weathersit 3 dan temp dalam penyewaan sepeda", loc="center", fontsize=50)
     ax.set_ylabel("cnt")
     ax.set_xlabel("temp")
+    ax.grid()
     ax.tick_params(axis="x", labelsize=35)
     ax.tick_params(axis="y", labelsize=35)
     st.pyplot(fig)
@@ -173,9 +155,7 @@ with col4:
     ax.set_title("Pengaruh weathersit 4 dan temp dalam penyewaan sepeda", loc="center", fontsize=50)
     ax.set_ylabel("cnt")
     ax.set_xlabel("temp")
+    ax.grid()
     ax.tick_params(axis="x", labelsize=35)
     ax.tick_params(axis="y", labelsize=35)
     st.pyplot(fig)
-
-with st.sidebar:
-    st.caption("Sukabumi, 2025")
