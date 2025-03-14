@@ -17,7 +17,7 @@ def create_byweathersit_temp_df(df):
 
     return byweathersit_temp_df
 
-df_hour = pd.read_csv("dashboard/all_hour.csv")
+df_hour = pd.read_csv("all_hour.csv")
 
 byhr_df = create_byhr_df(df_hour)
 byweathersit_temp_df = create_byweathersit_temp_df(df_hour)
