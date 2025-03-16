@@ -19,8 +19,28 @@ def create_byweathersit_temp_df(df):
 
 df_hour = pd.read_csv("https://raw.githubusercontent.com/trihadianto15/Submissions_analisis_data/refs/heads/main/Submissions/all_hour.csv")
 
-byhr_df = create_byhr_df(df_hour)
-byweathersit_temp_df = create_byweathersit_temp_df(df_hour)
+datetime_columns = ["dteday"]
+for column in datetime_columns:
+    df_hour[column] = pd.to_datetime(df_hour[column])
+
+min_date = df_hour["dteday"].min()
+max_date = df_hour["dteday"].max()
+
+with st.sidebar:
+    
+    # Mengambil start_date & end_date dari date_input
+    start_date, end_date = st.date_input(
+        label="Rentang Tanggal",
+        min_value=min_date,
+        max_value=max_date,
+        value=[min_date, max_date]
+    )
+
+main_df = df_hour[(df_hour["dteday"] >= str(start_date)) & 
+                (df_hour["dteday"] <= str(end_date))] 
+
+byhr_df = create_byhr_df(main_df)
+byweathersit_temp_df = create_byweathersit_temp_df(main_df)
 
 st.header('URBAN CYCLE')
 
@@ -31,17 +51,17 @@ col1, col2, col3 = st.columns(3)
  
 with col1:
     #jumlah seluruh penyewa sepeda
-    total_cnt = df_hour["cnt"].sum()
+    total_cnt = main_df["cnt"].sum()
     st.metric("Total penyewa", value=total_cnt)
 
 with col2:
     #jumlah penyewa yang casual
-    total_casual = df_hour["casual"].sum()
+    total_casual = main_df["casual"].sum()
     st.metric("Total Casual", value=total_casual)
 
 with col3:
     #jumlah penyewa yang registered
-    total_registered = df_hour["registered"].sum()
+    total_registered = main_df["registered"].sum()
     st.metric("Total registered", value=total_registered)
 
 
